@@ -11,12 +11,14 @@ import {
   Menu
 } from 'lucide-react';
 import { Card } from '../components/Card';
+import api from '../config/api';
 
 const sidebarLinks = [
   { icon: Package, label: 'Inventory', path: '/dashboard' },
   { icon: ShoppingCart, label: 'Orders', path: '/dashboard/orders' },
   { icon: BarChart2, label: 'Reports', path: '/dashboard/reports' },
-  { icon: Settings, label: 'Settings', path: '/dashboard/settings' }
+  { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
+  { icon: Package, label: 'Products', path: '/dashboard/products' },
 ];
 
 const mockStats = [
@@ -32,6 +34,26 @@ const mockRecentActivity = [
   { type: 'Low Stock Alert', item: 'USB-C Cable', quantity: '5 left', date: '6h ago' }
 ];
 
+const fetchInventory = async () => {
+  try {
+    const response = await api.get('/inventory');
+    setInventoryItems(response.data);
+  } catch (error) {
+    console.error('Error fetching inventory:', error);
+  }
+};
+
+// Example POST request
+const addItem = async (itemData) => {
+  try {
+    const response = await api.post('/inventory', itemData);
+    // Handle success
+  } catch (error) {
+    console.error('Error adding item:', error);
+  }
+};
+
+console.log(fetchInventory);
 export function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
